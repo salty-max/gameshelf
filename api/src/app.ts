@@ -10,6 +10,7 @@ import { Controller } from './controllers/main.controller';
 import { GameController } from './controllers/game.controller';
 import { PlatformController } from './controllers/platform.controller';
 import { GenreController } from './controllers/genre.controller';
+import { AuthController } from './controllers/auth.controller';
 
 class App {
   public app: Application;
@@ -18,6 +19,7 @@ class App {
   public gameController: GameController;
   public platformController: PlatformController;
   public genreController: GenreController;
+  public authController: AuthController;
 
   constructor() {
     this.app = express();
@@ -31,6 +33,7 @@ class App {
     this.gameController = new GameController(this.app);
     this.platformController = new PlatformController(this.app);
     this.genreController = new GenreController(this.app);
+    this.authController = new AuthController(this.app);
   }
 
   private setConfig() {
