@@ -70,7 +70,7 @@ export class GenreService {
       if (genre) {
         res
           .status(200)
-          .json({ message: `Deleted ${genre.id}` });
+          .json({ message: `Deleted genre ${genre.id}` });
         console.log('✅ DELETED GENRE')
       }
     } catch(err) {

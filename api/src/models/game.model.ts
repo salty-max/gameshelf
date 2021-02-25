@@ -1,11 +1,17 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { Genre } from './genre.model';
 import { Platform } from './platform.model';
 
 const GameSchema = new mongoose.Schema({
   name: String,
-  platform_id: String,
-  genre_id: String,
+  platform: {
+    type: Schema.Types.ObjectId,
+    ref: 'Platform'
+  },
+  genre: {
+    type: Schema.Types.ObjectId,
+    ref: 'Genre'
+  },
   completed: Boolean,
   platinum: Boolean,
   nowPlaying: Boolean,

@@ -70,7 +70,7 @@ export class PlatformService {
       if (platform) {
         res
           .status(200)
-          .json({ message: `Deleted ${platform.id}` });
+          .json({ message: `Deleted platform ${platform.id}` });
         console.log('✅ DELETED PLATFORM')
       }
     } catch(err) {

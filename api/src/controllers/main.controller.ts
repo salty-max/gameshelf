@@ -1,8 +1,8 @@
 import { Application } from 'express';
-import { GameService } from '../services/game.services';
+import { GameService } from '../services/game.service';
 import { GenreService } from '../services/genre.service';
 import { MainService } from '../services/main.service';
-import { PlatformService } from '../services/platform.services';
+import { PlatformService } from '../services/platform.service';
 
 export class Controller {
   private mainService: MainService;
@@ -21,6 +21,11 @@ export class Controller {
   public routes() {
     this.app.route('/').get(this.mainService.welcomeMessage);
     this.app.route('/games').get(this.gameService.getAllGames);
+    this.app.route('/game').post(this.gameService.addGame);
+    this.app.route('/game/:id')
+      .get(this.gameService.getGame)
+      .put(this.gameService.updateGame)
+      .delete(this.gameService.deleteGame);
     this.app.route('/platforms').get(this.platformService.getAllPlatforms);
     this.app.route('/platform').post(this.platformService.addPlatform);
     this.app.route('/platform/:id')
