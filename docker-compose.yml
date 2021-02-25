@@ -1,0 +1,43 @@
+version: "3.8"
+
+services: 
+  mongoDB:
+    image: mongo:latest
+    restart: always
+    ports: 
+      - 27017:27017
+    env_file: 
+      - ./env/mongo.env
+    volumes:
+      - data:/data/db:rw
+      
+  api:
+    build: ./api
+    ports:
+      - 8080:8080
+    env_file: 
+      - ./env/api.env
+    volumes:
+      - logs:/usr/app/src/logs
+      - ./api/src:/usr/app/src
+      - /usr/app/node_modules
+    depends_on: 
+      - mongoDB
+  
+  client:
+    build: ./client
+    ports:
+      - 3000:3000
+    env_file: 
+      - ./env/client.env
+    volumes:
+      - ./client/src:/usr/app/src
+      - /usr/app/node_modules
+    depends_on: 
+      - api
+
+volumes:
+  data:
+  logs:
+
+    
