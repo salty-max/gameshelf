@@ -7,11 +7,17 @@ import morgan from 'morgan';
 import mongoose from 'mongoose';
 
 import { Controller } from './controllers/main.controller';
+import { GameController } from './controllers/game.controller';
+import { PlatformController } from './controllers/platform.controller';
+import { GenreController } from './controllers/genre.controller';
 
 class App {
   public app: Application;
   private accessLogStream: fs.WriteStream;
   public mainController: Controller;
+  public gameController: GameController;
+  public platformController: PlatformController;
+  public genreController: GenreController;
 
   constructor() {
     this.app = express();
@@ -22,6 +28,9 @@ class App {
       { flags: 'a' }
     );
     this.mainController = new Controller(this.app);
+    this.gameController = new GameController(this.app);
+    this.platformController = new PlatformController(this.app);
+    this.genreController = new GenreController(this.app);
   }
 
   private setConfig() {
