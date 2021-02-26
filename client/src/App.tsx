@@ -1,12 +1,16 @@
 import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import PrivateRoute from './components/PrivateRoute.component';
 
 function App() {
   return (
-    <div className="w-screen">
-      <main className="bg-gray-lightest h-screen p-6">
-        <h1 className="font-bold text-gray-darkest text-4xl pb-6">Hello world！</h1>
-      </main>
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/" component={() => <h1>Hello World</h1>} />
+        <Route exact path="/login" component={() => <h1>Login</h1>} />
+        <PrivateRoute path="/games" component={() => <h1>Games</h1>} />
+      </Switch>
+    </Router>
   );
 }
 
