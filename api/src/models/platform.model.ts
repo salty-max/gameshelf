@@ -9,7 +9,7 @@ const PlatformSchema = new mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: "Game"
   }],
-  createdAt: {
+  created_at: {
     type: Date,
     default: Date.now(),
   }

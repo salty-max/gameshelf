@@ -15,6 +15,11 @@ const GameSchema = new mongoose.Schema({
     ref: 'Genre',
     required: true,
   },
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
   completed: {
     type: Boolean,
     default: false,
@@ -27,8 +32,8 @@ const GameSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  releaseDate: Date,
-  createdAt: {
+  release_date: Date,
+  created_at: {
     type: Date,
     default: Date.now(),
   }

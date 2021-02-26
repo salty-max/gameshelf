@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import { Platform } from '../models/platform.model';
+import { addPlatformValidation } from '../validations/platform.validation';
 
 const PlatformRouter = Router();
 
@@ -22,6 +23,12 @@ PlatformRouter.get('/', async (req: Request, res: Response) => {
 });
 
 PlatformRouter.post('/', async (req: Request, res: Response) => {
+  const { error } = addPlatformValidation(req.body);
+
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message })
+  }
+
   const newPlatform = new Platform(req.body);
 
   try {

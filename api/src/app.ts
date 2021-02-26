@@ -31,7 +31,7 @@ class App {
   private setRoutes() {
     this.app.use('/api', MainRouter);
     this.app.use('/api/auth', AuthRouter);
-    this.app.use('/api/games', GameRouter);
+    this.app.use('/api/games', verifyToken, GameRouter);
     this.app.use('/api/genres', GenreRouter);
     this.app.use('/api/platforms', PlatformRouter);
   }

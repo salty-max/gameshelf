@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import { Genre } from '../models/genre.model';
+import { addGenreValidation } from '../validations/genre.validation';
 
 const GenreRouter = Router();
 
@@ -22,6 +23,12 @@ GenreRouter.get('/', async (req: Request, res: Response) => {
 });
 
 GenreRouter.post('/', async (req: Request, res: Response) => {
+  const { error } = addGenreValidation(req.body);
+
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message })
+  }
+
   const newGenre = new Genre(req.body);
 
   try {

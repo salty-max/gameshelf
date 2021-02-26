@@ -82,7 +82,7 @@ AuthRouter.post('/login', async (req: Request, res: Response) => {
   res
     .header("auth-token", token)
     .status(200)
-    .json({ message: "Login successful", data: { token, userId: user._id }});
+    console.log('✅ LOGGED USER');
 });
 
 export default AuthRouter;

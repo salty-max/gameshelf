@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import { Game } from '../models/game.model';
+import { addGameValidation } from '../validations/game.validation';
 
 const GameRouter = Router();
 
@@ -48,7 +49,14 @@ GameRouter.get('/:id', async (req: Request, res: Response) => {
 });
 
 GameRouter.post('/', async (req: Request, res: Response) => {
+  const { error } = addGameValidation(req.body);
+
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message })
+  }
+
   const newGame = new Game(req.body);
+  
   try {
     const game = newGame.save();
     if (game) {
