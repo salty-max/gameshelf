@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import cx from 'classnames';
 
 interface IButtonProps {
+  type?: 'button' | 'submit' | 'reset';
   bgColor?: string;
   textColor?: string;
   text?: string;
@@ -10,10 +11,10 @@ interface IButtonProps {
   circle?: boolean;
   rounded?: boolean;
   onClick?: () => void;
-  isSubmit?: boolean;
 }
 
 const Button: FC<IButtonProps> = ({
+  type = 'button',
   bgColor = 'gray-darkest',
   textColor = 'white',
   text,
@@ -22,7 +23,6 @@ const Button: FC<IButtonProps> = ({
   circle = false,
   rounded = false,
   onClick = () => {},
-  isSubmit,
 }: IButtonProps) => {
   const classes = cx({
     'w-full': full,
@@ -33,25 +33,15 @@ const Button: FC<IButtonProps> = ({
   });
 
   return (
-    <>
-      {isSubmit ? (
-        <input
-          type="submit"
-          value={text}
-          className={`${classes} bg-${bgColor} hover:bg-${bgColor}-dark text-${textColor} transition-colors duration-300 cursor-pointer`}
-        />
-      ) : (
-        <button
-          type="button"
-          onClick={onClick}
-          className={`${classes} bg-${bgColor} hover:bg-${bgColor}-dark text-${textColor} transition-colors duration-300 flex items-center justify-center`}
-        >
-          {/* Text and icon can be used alone */}
-          {icon && <i className={`${text ? 'mr-2 ' : ''}far fa-${icon}`} />}
-          {text && <span>{text}</span>}
-        </button>
-      )}
-    </>
+    <button
+      type={type}
+      onClick={onClick}
+      className={`${classes} bg-${bgColor} hover:bg-${bgColor}-dark text-${textColor} transition-colors duration-300 flex items-center justify-center`}
+    >
+      {/* Text and icon can be used alone */}
+      {icon && <i className={`${text ? 'mr-2 ' : ''}far fa-${icon}`} />}
+      {text && <span>{text}</span>}
+    </button>
   );
 };
 

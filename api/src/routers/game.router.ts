@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { Game } from '../models/game.model';
 import { User } from '../models/user.model';
-import { addGameValidation } from '../validations/game.validation';
+import { addGameValidation, editGameValidation } from '../validations/game.validation';
 
 const GameRouter = Router();
 
@@ -68,7 +68,10 @@ GameRouter.post('/', async (req: Request, res: Response) => {
   const { error } = addGameValidation(req.body);
   
   if (error) {
-    return res.status(400).json({ message: error.details[0].message })
+    return res.status(400).json({ errors: error.details.map(e => ({ 
+      field: e.context?.key,
+      message: e.message
+    })) });
   }
 
   try {
@@ -124,10 +127,13 @@ GameRouter.post('/', async (req: Request, res: Response) => {
 GameRouter.put('/:id', async (req: Request, res: Response) => {
   const gameId = req.params.id;
 
-  const { error } = addGameValidation(req.body);
+  const { error } = editGameValidation(req.body);
   
   if (error) {
-    return res.status(400).json({ message: error.details[0].message })
+    return res.status(400).json({ errors: error.details.map(e => ({ 
+      field: e.context?.key,
+      message: e.message
+    })) });
   }
 
   try {
@@ -136,7 +142,7 @@ GameRouter.put('/:id', async (req: Request, res: Response) => {
 
     if (String(game?.owner) !== req.user.id) res.status(401).json({ message: 'Unauthorized' });
 
-    game = await Game.findByIdAndUpdate(gameId);
+    game = await Game.findByIdAndUpdate(gameId, req.body);
 
     res
       .status(201)

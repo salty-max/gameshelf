@@ -15,7 +15,7 @@ const AuthRouter = Router();
  */
 AuthRouter.get('/', verifyToken, async (req: Request, res: Response) => {
   try {
-    const user = await User.findById(req.user.id).select('-password');
+    const user = await User.findById(req.user.id).select('-password -games');
 
     if (user) {
       res
@@ -41,7 +41,10 @@ AuthRouter.post("/register", async (req: Request, res: Response) => {
   const { error } = registerValidation(req.body);
 
   if (error) {
-    return res.status(400).json({ message: error.details[0].message })
+    return res.status(400).json({ errors: error.details.map(e => ({ 
+      field: e.context?.key,
+      message: e.message
+    })) });
   }
 
   try {
@@ -100,7 +103,10 @@ AuthRouter.post('/login', async (req: Request, res: Response) => {
   const { error } = loginValidation(req.body);
 
   if (error) {
-    return res.status(400).json({ message: error.details[0].message })
+    return res.status(400).json({ errors: error.details.map(e => ({ 
+      field: e.context?.key,
+      message: e.message
+    })) });
   }
 
   const user = await User.findOne({ email: req.body.email });

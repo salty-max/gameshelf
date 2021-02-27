@@ -13,7 +13,7 @@ const PrivateRoute = ({ component: Component, path, exact = false }: IPrivateRou
   const message = 'Please log in to view this page';
 
   const render = (props: RouteComponentProps) =>
-    authenticated && localStorage.getItem('auth')?.token ? (
+    authenticated && localStorage.getItem('token') ? (
       <Component {...props} />
     ) : (
       <Redirect

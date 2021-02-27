@@ -13,3 +13,17 @@ export const addGameValidation = (data: any) => {
 
   return schema.validate(data);
 }
+
+export const editGameValidation = (data: any) => {
+  const schema = Joi.object({
+    name: Joi.string(),
+    platform: Joi.string(),
+    genre: Joi.string(),
+    completed: Joi.boolean(),
+    platinum: Joi.boolean(),
+    now_playing: Joi.boolean(),
+    release_date: Joi.date(),
+  });
+
+  return schema.validate(data);
+}

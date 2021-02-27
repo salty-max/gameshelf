@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { FC, FormEvent, RefObject } from 'react';
+import React, { FC } from 'react';
 
 interface IOption {
   label: string;
