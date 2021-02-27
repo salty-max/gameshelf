@@ -1,13 +1,19 @@
 import { Request, Response, Router } from 'express';
 import { Game } from '../models/game.model';
+import { User } from '../models/user.model';
 import { addGameValidation } from '../validations/game.validation';
 
 const GameRouter = Router();
 
+/**
+ * @route GET /api/games
+ * @desc Get logged in user games
+ * @access Private
+ */
 GameRouter.get('/', async (req: Request, res: Response) => {
   try {
     const games = await Game
-      .find()
+      .find({ owner: req.user.id })
       .populate('genre', 'name')
       .populate('platform', 'name');
     if (games) {
@@ -25,11 +31,16 @@ GameRouter.get('/', async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * @route GET /api/games/:id
+ * @desc Get a user's game by id
+ * @access Private
+ */
 GameRouter.get('/:id', async (req: Request, res: Response) => {
   const gameId = req.params.id;
   try {
     const game = await Game
-      .findOne({ _id: gameId })
+      .findOne({ _id: gameId, owner: req.user.id })
       .populate('genre', 'name')
       .populate('platform', 'name');
 
@@ -48,16 +59,47 @@ GameRouter.get('/:id', async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * @route POST /api/games/
+ * @desc Add a game
+ * @access Private
+ */
 GameRouter.post('/', async (req: Request, res: Response) => {
   const { error } = addGameValidation(req.body);
-
+  
   if (error) {
     return res.status(400).json({ message: error.details[0].message })
   }
 
-  const newGame = new Game(req.body);
-  
   try {
+  
+    const owner = await User.findById(req.user.id);
+
+    if (!owner) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const { 
+      name,
+      genre,
+      platform,
+      completed,
+      platinum,
+      now_playing,
+      release_date 
+    } = req.body;
+
+    const newGame = new Game({
+      name,
+      genre,
+      platform,
+      completed,
+      platinum,
+      now_playing,
+      release_date,
+      owner: req.user.id
+    });
+  
     const game = newGame.save();
     if (game) {
       res
@@ -74,16 +116,32 @@ GameRouter.post('/', async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * @route PUT /api/games/:id
+ * @desc Edit a game
+ * @access Private
+ */
 GameRouter.put('/:id', async (req: Request, res: Response) => {
   const gameId = req.params.id;
+
+  const { error } = addGameValidation(req.body);
+  
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message })
+  }
+
   try {
-    const game = Game.findByIdAndUpdate(gameId, req.body);
-    if (game) {
-      res
-        .status(201)
-        .json({ message: 'Updated game', game });
-      console.log('✅ UPDATED GAME');
-    }
+    let game = await Game.findById(gameId);
+    if (!game) res.status(404).json({ message: 'Game not found' });
+
+    if (String(game?.owner) !== req.user.id) res.status(401).json({ message: 'Unauthorized' });
+
+    game = await Game.findByIdAndUpdate(gameId);
+
+    res
+      .status(201)
+      .json({ message: 'Updated game', game });
+    console.log('✅ UPDATED GAME');
   } catch (err) {
     console.log('❌ ERROR UPDATING GAME');
     console.error(err.message);
@@ -93,16 +151,24 @@ GameRouter.put('/:id', async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * @route DELETE /api/games/:id
+ * @desc Delete a game
+ * @access Private
+ */
 GameRouter.delete('/:id', async (req: Request, res: Response) => {
   const gameId = req.params.id;
   try {
-    const game = await Game.findByIdAndDelete(gameId);
-    if (game) {
-      res
-        .status(200)
-        .json({ message: `Deleted game ${game.id}`, game });
-      console.log('✅ DELETED GAME');
-    }
+    let game = await Game.findById(gameId);
+    if (!game) res.status(404).json({ message: 'Game not found' });
+
+    if (String(game?.owner) !== req.user.id) res.status(401).json({ message: 'Unauthorized' });
+
+    game = await Game.findByIdAndDelete(gameId);
+    res
+      .status(200)
+      .json({ message: `Deleted game ${game?.id}`, game });
+    console.log('✅ DELETED GAME');
   } catch (err) {
     console.log('❌ ERROR DELETING GAME');
     console.error(err.message);

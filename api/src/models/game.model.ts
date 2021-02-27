@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema, Document, Types } from 'mongoose';
 
 const GameSchema = new mongoose.Schema({
   name: {
@@ -39,4 +39,16 @@ const GameSchema = new mongoose.Schema({
   }
 })
 
-export const Game = mongoose.model("Game", GameSchema);
+export interface IGame extends Document {
+  _id: string;
+  name: string;
+  platform: Types.ObjectId;
+  genre: Types.ObjectId;
+  owner: Types.ObjectId;
+  completed: boolean;
+  platinum: boolean;
+  now_playing: boolean;
+  release_date: boolean;
+}
+
+export const Game = mongoose.model<IGame>("Game", GameSchema);
