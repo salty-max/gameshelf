@@ -10,5 +10,6 @@
     "emitDecoratorMetadata": true,
   },                         
   "exclude": ["node_modules"], 
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts"],
+  "files":["typings/environment.d.ts"]
 }

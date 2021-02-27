@@ -4,9 +4,39 @@ import jwt from 'jsonwebtoken';
 
 import { User } from '../models/user.model';
 import { loginValidation, registerValidation } from '../validations/auth.validation';
+import { verifyToken } from '../validations/token.validation';
 
 const AuthRouter = Router();
 
+/**
+ * @route GET /api/auth
+ * @desc Get logged in user
+ * @access Private
+ */
+AuthRouter.get('/', verifyToken, async (req: Request, res: Response) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+
+    if (user) {
+      res
+        .status(200)
+        .json({ message: 'Got user', user });
+      console.log('✅ GOT USER');
+    }
+  } catch(err) {
+    console.log('❌ ERROR GETTING USER');
+    console.error(err.message);
+    res
+      .status(500)
+      .json({ message: 'Failed to get user' });
+  }
+})
+
+/**
+ * @route POST /api/auth/register
+ * @desc Register user
+ * @access Public
+ */
 AuthRouter.post("/register", async (req: Request, res: Response) => {
   const { error } = registerValidation(req.body);
 
@@ -14,29 +44,44 @@ AuthRouter.post("/register", async (req: Request, res: Response) => {
     return res.status(400).json({ message: error.details[0].message })
   }
 
-  const isEmailExist = await User.findOne({ email: req.body.email });
-
-  if (isEmailExist) {
-    return res.status(400).json({ message: "Email already exists" });
-  }
-
-  const salt = await bcrypt.genSalt(10);
-  const password = await bcrypt.hash(req.body.password, salt);
-
-  const newUser = new User({
-    username: req.body.username,
-    email: req.body.email,
-    password, // hashed password
-  });
-
   try {
-    const user = await newUser.save();
-    if (user) {
-      res
-        .status(201)
-        .json({ message: 'Saved user', data: { userId: newUser._id } });
-      console.log('✅ REGISTERED USER');
+    const isEmailExist = await User.findOne({ email: req.body.email });
+
+    if (isEmailExist) {
+      return res.status(400).json({ message: "Email already exists" });
     }
+
+    const salt = await bcrypt.genSalt(10);
+    const password = await bcrypt.hash(req.body.password, salt);
+
+    const newUser = new User({
+      username: req.body.username,
+      email: req.body.email,
+      password, // hashed password
+    });
+
+    const user = await newUser.save();
+
+    const payload = {
+      user: {
+        id: user._id
+      }
+    }
+
+    jwt.sign(
+      payload,
+      process.env.TOKEN_SECRET || "",
+      {
+        expiresIn: 360000
+      },
+      (err, token) => {
+        if (err) throw err;
+        res
+          .status(200)
+          .json({ message: "Registered user", token });
+        console.log('✅ REGISTERED USER');
+      }
+    )
   } catch(err) {
     console.log('❌ ERROR REGISTERING USER');
     console.error(err.message);
@@ -46,6 +91,11 @@ AuthRouter.post("/register", async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * @route POST /api/auth/login
+ * @desc Log in user
+ * @access Public
+ */
 AuthRouter.post('/login', async (req: Request, res: Response) => {
   const { error } = loginValidation(req.body);
 
@@ -65,26 +115,27 @@ AuthRouter.post('/login', async (req: Request, res: Response) => {
     return res.status(400).json({ message: "Password is wrong" });
   }
 
-  let token;
-
-  if (process.env.TOKEN_SECRET) {
-    token = jwt.sign(
-      {
-        username: user.username,
-        email: user.email,
-        id: user._id
-      },
-      process.env.TOKEN_SECRET
-    );
-  } else {
-    throw new Error("Jwt secret not set");
+  const payload = {
+    user: {
+      id: user._id
+    }
   }
 
-  res
-    .header("auth-token", token)
-    .status(200)
-    .json({ message: "Logged in user", data: { user: { username: user.username, email: user.email }, token } })
-    console.log('✅ LOGGED USER');
+  jwt.sign(
+    payload,
+    process.env.TOKEN_SECRET || "",
+    {
+      expiresIn: 360000
+    },
+    (err, token) => {
+      if (err) throw err;
+      res
+        .status(200)
+        .json({ message: "Logged in user", token });
+      console.log('✅ LOGGED USER');
+    }
+  );
+    
 });
 
 export default AuthRouter;
