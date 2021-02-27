@@ -11,6 +11,7 @@ module.exports = {
     },
     fontFamily: {
       sans: ['Nunito', 'sans-serif'],
+      title: ['Bungee', 'sans-serif'],
     },
     colors: {
       green: {
@@ -46,7 +47,7 @@ module.exports = {
         dark: '#fdcb6e',
       },
       gray: {
-        lightest: '#F4F5F7',
+        lightest: '#E8F0FE',
         light: '#bdc3c7',
         DEFAULT: '#95a5a6',
         dark: '#7f8c8d',

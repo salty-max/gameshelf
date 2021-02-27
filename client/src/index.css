@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+@import '~@fortawesome/fontawesome-pro/css/fontawesome';
+@import '~@fortawesome/fontawesome-pro/css/all';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,6 +12,25 @@
   }
 
   button {
+    @apply focus:outline-none;
+  }
+
+  label {
+    @apply block;
+    @apply pb-1;
+    @apply font-semibold;
+  }
+
+  input[type='text'],
+  input[type='number'],
+  input[type='email'],
+  input[type='password'],
+  select,
+  textarea {
+    @apply rounded-xl;
+    @apply px-4 py-2;
+    @apply focus:ring-purple;
+    @apply focus:ring-2;
     @apply focus:outline-none;
   }
 }

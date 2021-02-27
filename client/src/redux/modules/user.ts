@@ -2,6 +2,11 @@ import { Dispatch } from 'react';
 import createUrl from '../../utils/createUrl';
 import typedAction from '../shared/typedAction';
 
+export type IError = {
+  field: string;
+  message: string;
+};
+
 export type IUser = {
   id: string;
   username: string;
@@ -11,7 +16,7 @@ export type IUser = {
 type IUserState = {
   user: IUser | null;
   authenticated: boolean;
-  error: string | null;
+  error: IError | null;
 };
 
 const initialState: IUserState = {
@@ -22,7 +27,7 @@ const initialState: IUserState = {
 
 const login = (user: IUser) => typedAction('user/LOGIN', user);
 const logout = () => typedAction('user/LOGOUT');
-const setError = (error: string) => typedAction('user/SET_ERROR', error);
+const setError = (error: IError) => typedAction('user/SET_ERROR', error);
 
 export const loginUser = (body: any) => async (dispatch: Dispatch<UserAction>) => {
   try {
@@ -32,14 +37,18 @@ export const loginUser = (body: any) => async (dispatch: Dispatch<UserAction>) =
       body: JSON.stringify(body),
     });
 
-    const data = await res.json();
+    const json = await res.json();
 
-    if (data) {
-      localStorage.setItem('user', JSON.stringify(data));
-      dispatch(login(data.user));
+    if (json.data) {
+      localStorage.setItem('auth', JSON.stringify(json.data));
+      dispatch(login(json.data.user));
+    } else {
+      throw new Error(json.message);
     }
   } catch (err) {
-    dispatch(setError(err.message));
+    const fieldRegex = new RegExp(/"{1}(?:.+)"{1}/);
+    const field = err.message.match(fieldRegex).toString().replaceAll('"', '');
+    dispatch(setError({ field, message: err.message }));
   }
 };
 

@@ -28,6 +28,9 @@ module.exports = {
     radix: 'error',
     'space-before-blocks': 'error',
     'import/prefer-default-export': 'off',
+    'jsx-a11y/label-has-for': 'off',
+    'jsx-a11y/no-onchange': 'off',
+    'react/prop-types': 'off',
   },
   overrides: [
     {
