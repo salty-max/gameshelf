@@ -2,6 +2,7 @@
 env/mongo.env
 env/api.env
 env/client.env
+node_modules
 
 api/node_modules
 api/package-lock.json
