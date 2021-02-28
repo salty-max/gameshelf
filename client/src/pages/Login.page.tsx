@@ -18,17 +18,17 @@ const Login = () => {
   const history = useHistory();
   const { error, authenticated } = useTypedSelector((state) => state.user);
   const dispatch: ThunkDispatch<RootState, unknown, AppActions> = useDispatch();
-  const login = (body: FormData) => dispatch(loginUser(body));
-  const load = () => dispatch(loadUser());
+  const loginAction = (body: FormData) => dispatch(loginUser(body));
+  const loadAction = () => dispatch(loadUser());
   const { register, handleSubmit } = useForm<FormData>();
 
   useEffect(() => {
-    authenticated && history.push('/games');
+    authenticated && history.push('/dashboard');
   }, [history, authenticated]);
 
   const onSubmit = handleSubmit(async ({ email, password }) => {
-    await login({ email, password });
-    await load();
+    await loginAction({ email, password });
+    await loadAction();
   });
 
   return (

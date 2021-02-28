@@ -1,25 +1,61 @@
-import React from 'react';
+import React, { FC, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { ThunkDispatch } from 'redux-thunk';
+import Menu from './components/Menu/Menu.component';
 import PrivateRoute from './components/PrivateRoute.component';
 import Login from './pages/Login.page';
 import Register from './pages/Register.page';
+import { AppActions, RootState } from './redux';
+import { loadUser } from './redux/modules/user';
 import setAuthToken from './utils/setAuthToken';
 
 if (localStorage.getItem('token')) {
   setAuthToken(localStorage.getItem('token'));
 }
 
-function App() {
+interface IWrapperProps {
+  children: React.ReactNode;
+}
+
+const Wrapper: FC<IWrapperProps> = ({ children }) => {
+  const dispatch: ThunkDispatch<RootState, unknown, AppActions> = useDispatch();
+  const loadAction = () => dispatch(loadUser());
+
+  useEffect(() => {
+    console.log('coucou');
+    loadAction();
+  }, []);
+
+  return (
+    <div className="grid grid-cols-4 lg:grid-cols-6">
+      <Menu />
+      <main className="h-full col-start-2 col-span-3 lg:col-span-5 rounded-xxl bg-gray-lightest">
+        {children}
+      </main>
+    </div>
+  );
+};
+
+const App: FC = () => {
   return (
     <Router>
       <Switch>
         <Route exact path="/" component={() => <h1>Hello World</h1>} />
         <Route exact path="/login" component={() => <Login />} />
         <Route exact path="/register" component={() => <Register />} />
-        <PrivateRoute path="/games" component={() => <h1>Games</h1>} />
+        <PrivateRoute
+          exact
+          path="/dashboard"
+          component={() => (
+            <Wrapper>
+              <h1>Games</h1>
+            </Wrapper>
+          )}
+        />
       </Switch>
     </Router>
   );
-}
+};
 
 export default App;

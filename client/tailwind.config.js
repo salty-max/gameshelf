@@ -50,8 +50,8 @@ module.exports = {
         lightest: '#E8F0FE',
         light: '#bdc3c7',
         DEFAULT: '#95a5a6',
-        dark: '#7f8c8d',
-        darkest: '#2c3e50',
+        dark: '#424169',
+        darkest: '#101032',
       },
       white: {
         DEFAULT: '#ffffff',
@@ -103,7 +103,7 @@ module.exports = {
       DEFAULT: '.325rem',
       lg: '.5rem',
       xl: '.675rem',
-      xxl: '.825rem',
+      xxl: '.875rem',
       full: '9999px',
     },
     opacity: {
