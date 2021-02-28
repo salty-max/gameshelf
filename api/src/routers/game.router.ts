@@ -14,8 +14,8 @@ GameRouter.get('/', async (req: Request, res: Response) => {
   try {
     const games = await Game
       .find({ owner: req.user.id })
-      .populate('genre', 'name')
-      .populate('platform', 'name');
+      .populate('genres', { name: 1 })
+      .populate('platforms', { name: 1 })
     if (games) {
       res
         .status(200)
@@ -84,22 +84,24 @@ GameRouter.post('/', async (req: Request, res: Response) => {
 
     const { 
       name,
-      genre,
-      platform,
-      completed,
-      platinum,
-      now_playing,
-      release_date 
-    } = req.body;
-
-    const newGame = new Game({
-      name,
-      genre,
-      platform,
+      genres,
+      platforms,
       completed,
       platinum,
       now_playing,
       release_date,
+      cover
+    } = req.body;
+
+    const newGame = new Game({
+      name,
+      genres,
+      platforms,
+      completed,
+      platinum,
+      now_playing,
+      release_date,
+      cover,
       owner: req.user.id
     });
   

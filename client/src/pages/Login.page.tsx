@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { useForm } from 'react-hook-form';
+import { Link, useHistory } from 'react-router-dom';
 
 import { AppActions, RootState, useTypedSelector } from '../redux';
 import { loadUser, loginUser } from '../redux/modules/user';
-import Field from '../components/Field.component';
-import { useHistory } from 'react-router-dom';
-import Button from '../components/Button.component';
+import Field from '../components/shared/Field.component';
+import Button from '../components/shared/Button.component';
 
 interface FormData {
   email: string;
@@ -41,6 +41,12 @@ const Login = () => {
           <Field name="password" label="Password" type="password" register={register} />
           <div className="pt-4">
             <Button bgColor="green" type="submit" full rounded text="Login" icon="sign-in-alt" />
+          </div>
+          <div className="pt-4">
+            <span className="text-gray-dark mr-2">No account yet?</span>
+            <Link className="text-purple" to="/register">
+              Register here!
+            </Link>
           </div>
         </form>
       </div>

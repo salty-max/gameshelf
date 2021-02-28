@@ -27,10 +27,12 @@
   input[type='password'],
   select,
   textarea {
+    @apply bg-gray-lightest;
     @apply rounded-xl;
     @apply px-4 py-2;
     @apply focus:ring-purple;
     @apply focus:ring-2;
     @apply focus:outline-none;
+    @apply w-full;
   }
 }

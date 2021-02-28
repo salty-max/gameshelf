@@ -13,25 +13,25 @@ export const LOGOUT = 'user/LOGOUT';
 export const AUTH_ERROR = 'user/AUTH_ERROR';
 export const CLEAR_ERRORS = 'user/CLEAR_ERRORS';
 
-export type IError = {
+export interface IError {
   field: string;
   message: string;
-};
+}
 
-export type IUser = {
+export interface IUser {
   _id: string;
   username: string;
   email: string;
   created_at: Date;
-};
+}
 
-type IUserState = {
+interface IUserState {
   token: string | null;
   user: IUser | null;
   authenticated: boolean;
   loading: boolean;
   error: IError[] | string | null;
-};
+}
 
 const initialState: IUserState = {
   token: localStorage.getItem('token'),
@@ -43,11 +43,11 @@ const initialState: IUserState = {
 
 const load = (user: IUser) => typedAction(USER_LOADED, user);
 const registerSuccess = (token: string) => typedAction(REGISTER_SUCCESS, token);
-const registerFail = (error: IError) => typedAction(REGISTER_FAIL, error);
+const registerFail = (error: IError | string) => typedAction(REGISTER_FAIL, error);
 const loginSuccess = (token: string) => typedAction(LOGIN_SUCCESS, token);
-const loginFail = (error: IError) => typedAction(LOGIN_FAIL, error);
+const loginFail = (error: IError | string) => typedAction(LOGIN_FAIL, error);
 const logout = () => typedAction(LOGOUT);
-const authError = (error: IError) => typedAction(AUTH_ERROR, error);
+const authError = (error: IError | string) => typedAction(AUTH_ERROR, error);
 
 export type UserAction = ReturnType<
   | typeof load

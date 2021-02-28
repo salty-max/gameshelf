@@ -3,7 +3,8 @@ import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ThunkDispatch } from 'redux-thunk';
 import Menu from './components/Menu/Menu.component';
-import PrivateRoute from './components/PrivateRoute.component';
+import PrivateRoute from './components/shared/PrivateRoute.component';
+import Dashboard from './pages/Dashboard.page';
 import Login from './pages/Login.page';
 import Register from './pages/Register.page';
 import { AppActions, RootState } from './redux';
@@ -49,7 +50,7 @@ const App: FC = () => {
           path="/dashboard"
           component={() => (
             <Wrapper>
-              <h1>Games</h1>
+              <Dashboard />
             </Wrapper>
           )}
         />

@@ -5,16 +5,20 @@ const GameSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  platform: {
-    type: Schema.Types.ObjectId,
-    ref: 'Platform',
-    required: true,
-  },
-  genre: {
-    type: Schema.Types.ObjectId,
-    ref: 'Genre',
-    required: true,
-  },
+  platforms: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Platform',
+      required: true,
+    }
+  ],
+  genres: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Genre',
+      required: true,
+    }
+  ],
   owner: {
     type: Schema.Types.ObjectId,
     ref: 'User',
@@ -36,7 +40,8 @@ const GameSchema = new mongoose.Schema({
   created_at: {
     type: Date,
     default: Date.now(),
-  }
+  },
+  "cover": String
 })
 
 export interface IGame extends Document {
@@ -49,6 +54,7 @@ export interface IGame extends Document {
   platinum: boolean;
   now_playing: boolean;
   release_date: boolean;
+  cover: string;
 }
 
 export const Game = mongoose.model<IGame>("Game", GameSchema);

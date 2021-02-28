@@ -5,7 +5,7 @@ import { ThunkDispatch } from 'redux-thunk';
 
 import { AppActions, RootState, useTypedSelector } from '../../redux';
 import { logoutUser } from '../../redux/modules/user';
-import Button from '../Button.component';
+import Button from '../shared/Button.component';
 import MenuItem from './MenuItem.component';
 
 const links = [

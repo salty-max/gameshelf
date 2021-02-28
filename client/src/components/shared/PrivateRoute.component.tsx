@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
+
 interface IPrivateRouteProps {
   component: FC<RouteComponentProps>;
   path: string;

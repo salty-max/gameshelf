@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { useForm } from 'react-hook-form';
+import { Link, useHistory } from 'react-router-dom';
 
 import { AppActions, RootState, useTypedSelector } from '../redux';
 import { loadUser, registerUser } from '../redux/modules/user';
-import Field from '../components/Field.component';
-import { useHistory } from 'react-router-dom';
-import Button from '../components/Button.component';
+import Field from '../components/shared/Field.component';
+import Button from '../components/shared/Button.component';
 
 interface FormData {
   username: string;
@@ -51,7 +51,20 @@ const Register = () => {
             register={register}
           />
           <div className="pt-4">
-            <Button bgColor="green" type="submit" full rounded text="Register" icon="sign-in-alt" />
+            <Button
+              bgColor="purple"
+              type="submit"
+              full
+              rounded
+              text="Register"
+              icon="sign-in-alt"
+            />
+          </div>
+          <div className="pt-4">
+            <span className="text-gray-dark mr-2">Already have an account?</span>
+            <Link className="text-purple" to="/login">
+              Login here!
+            </Link>
           </div>
         </form>
       </div>
