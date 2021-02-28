@@ -2,7 +2,9 @@
 env/mongo.env
 env/api.env
 env/client.env
+.vscode
 node_modules
+yarn.lock
 
 api/node_modules
 api/package-lock.json
@@ -11,6 +13,8 @@ api/.DS_Store
 
 # dependencies
 client/node_modules
+client/package-lock.json
+client/yarn.lock
 client/.pnp
 client/.pnp.js
 
