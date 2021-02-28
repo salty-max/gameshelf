@@ -1,9 +1,19 @@
-import mongoose, { Mongoose } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { Game } from './game.model';
 
 const GenreSchema = new mongoose.Schema({
-  name: String,
-  games: [Game]
+  name: {
+    type: String,
+    required: true,
+  },
+  games: [{
+    type: Schema.Types.ObjectId,
+    ref: "Game",
+  }],
+  created_at: {
+    type: Date,
+    default: Date.now(),
+  }
 })
 
 export const Genre = mongoose.model("Genre", GenreSchema);

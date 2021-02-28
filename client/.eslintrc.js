@@ -21,13 +21,16 @@ module.exports = {
   },
   plugins: ['react', 'jsx-a11y', '@typescript-eslint'],
   rules: {
-    'react-hooks/exhaustive-deps': 'error',
+    'react-hooks/exhaustive-deps': 'off',
     'no-var': 'error',
     'brace-style': 'error',
     'prefer-template': 'error',
     radix: 'error',
     'space-before-blocks': 'error',
     'import/prefer-default-export': 'off',
+    'jsx-a11y/label-has-for': 'off',
+    'jsx-a11y/no-onchange': 'off',
+    'react/prop-types': 'off',
   },
   overrides: [
     {

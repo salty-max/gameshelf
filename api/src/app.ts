@@ -6,22 +6,34 @@ import cors from 'cors';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
 
-import { Controller } from './controllers/main.controller';
+import AuthRouter from './routers/auth.router';
+import GameRouter from './routers/game.router';
+import GenreRouter from './routers/genre.router';
+import PlatformRouter from './routers/platform.router';
+import MainRouter from './routers/main.router';
+import { verifyToken } from './validations/token.validation';
 
 class App {
   public app: Application;
   private accessLogStream: fs.WriteStream;
-  public mainController: Controller;
 
   constructor() {
     this.app = express();
     this.setConfig();
     this.setMongoConfig();
+    this.setRoutes();
     this.accessLogStream = fs.createWriteStream(
       path.join(__dirname, 'logs', 'access.log'),
       { flags: 'a' }
     );
-    this.mainController = new Controller(this.app);
+  }
+
+  private setRoutes() {
+    this.app.use('/api', MainRouter);
+    this.app.use('/api/auth', AuthRouter);
+    this.app.use('/api/games', verifyToken, GameRouter);
+    this.app.use('/api/genres', GenreRouter);
+    this.app.use('/api/platforms', PlatformRouter);
   }
 
   private setConfig() {
