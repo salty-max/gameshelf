@@ -101,7 +101,7 @@ export const loginUser = (body: object) => async (dispatch: Dispatch<UserAction>
 };
 
 export const logoutUser = () => (dispatch: Dispatch<UserAction>) => {
-  localStorage.removeItem('user');
+  localStorage.removeItem('token');
   dispatch(logout());
 };
 
@@ -143,7 +143,8 @@ export const userReducer = (state: IUserState = initialState, action: UserAction
         error: action.payload,
       };
     case LOGOUT:
-      return { token: null, user: null, authenticated: false, loading: false, error: null };
+      localStorage.removeItem('token');
+      return { token: null, user: null, authenticated: false, loading: true, error: null };
     default:
       return state;
   }

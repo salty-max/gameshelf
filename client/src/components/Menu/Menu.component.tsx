@@ -16,11 +16,17 @@ const links = [
 
 const Menu = () => {
   const {
+    push,
     location: { pathname },
   } = useHistory();
   const { user } = useTypedSelector((state) => state.user);
   const dispatch: ThunkDispatch<RootState, unknown, AppActions> = useDispatch();
   const logout = () => dispatch(logoutUser());
+
+  const handleLogout = () => {
+    logout();
+    push('/login');
+  };
 
   return (
     <aside className="px-4 py-2 col-start-1 col-span-1 h-screen relative">
@@ -47,7 +53,7 @@ const Menu = () => {
           textColor="red"
           circle
           icon="power-off"
-          onClick={() => logout()}
+          onClick={handleLogout}
         />
       </div>
     </aside>

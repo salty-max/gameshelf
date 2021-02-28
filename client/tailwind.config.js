@@ -104,6 +104,7 @@ module.exports = {
       lg: '.5rem',
       xl: '.675rem',
       xxl: '.875rem',
+      xxxl: '1rem',
       full: '9999px',
     },
     opacity: {
