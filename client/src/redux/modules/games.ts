@@ -23,8 +23,18 @@ export interface IError {
 export interface IGame {
   _id: string;
   name: string;
-  platform: string;
-  genre: string;
+  platforms: [
+    {
+      _id: string;
+      name: string;
+    },
+  ];
+  genres: [
+    {
+      _id: string;
+      name: string;
+    },
+  ];
   owner: string;
   completed: boolean;
   platinum: boolean;

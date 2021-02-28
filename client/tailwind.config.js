@@ -10,7 +10,7 @@ module.exports = {
       '2xl': '1536px',
     },
     fontFamily: {
-      sans: ['Nunito', 'sans-serif'],
+      sans: ['Poppins', 'sans-serif'],
       title: ['Bungee', 'sans-serif'],
     },
     colors: {
@@ -47,9 +47,9 @@ module.exports = {
         dark: '#fdcb6e',
       },
       gray: {
-        lightest: '#E8F0FE',
-        light: '#bdc3c7',
-        DEFAULT: '#95a5a6',
+        lightest: '#F4F5F7',
+        light: '#E7E8EB',
+        DEFAULT: '#E8F0FE',
         dark: '#424169',
         darkest: '#101032',
       },
@@ -118,6 +118,9 @@ module.exports = {
     extend: {},
   },
   variants: {
-    extend: {},
+    extend: {
+      borderRadius: ['hover'],
+      borderWidth: ['hover'],
+    },
   },
 };
