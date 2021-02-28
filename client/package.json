@@ -34,7 +34,7 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "lint": "eslint --quiet --fix *.{js,jsx,ts,tsx} && prettier --write *.{json,md,html}"
+    "lint": "npx eslint --quiet --fix *.{js,jsx,ts,tsx} && npx prettier --write *.{json,md,html}"
   },
   "eslintConfig": {
     "extends": [
