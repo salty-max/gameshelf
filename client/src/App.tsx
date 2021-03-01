@@ -31,7 +31,7 @@ const Wrapper: FC<IWrapperProps> = ({ children }) => {
   return (
     <div className="grid grid-cols-4 lg:grid-cols-6">
       <Menu />
-      <main className="h-full col-start-2 col-span-3 lg:col-span-5 rounded-xxxl bg-gray-lightest">
+      <main className="col-start-2 col-span-3 lg:col-span-5 rounded-xxxl bg-gray h-screen overflow-y-auto">
         {children}
       </main>
     </div>

@@ -11,12 +11,12 @@ interface IMenuItemProps {
 
 const MenuItem: FC<IMenuItemProps> = ({ path, label, icon, active }) => {
   const classes = cx({
-    'bg-gray-lightest text-purple-dark': active,
+    'bg-gray-lightest text-purple-dark font-semibold': active,
     'bg-white text-gray-dark': !active,
   });
   return (
     <Link
-      className={`${classes} hover:bg-purple hover:text-white px-4 py-2 font-bold rounded-xxl flex items-center transition-colors duration-300`}
+      className={`${classes} hover:bg-purple hover:text-white px-4 py-2 rounded-xxl flex items-center transition-colors duration-300`}
       to={path}
     >
       <div className="w-1/5 flex justify-center">

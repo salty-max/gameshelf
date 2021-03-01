@@ -3,12 +3,15 @@ import Joi from '@hapi/joi';
 export const addGameValidation = (data: any) => {
   const schema = Joi.object({
     name: Joi.string().required(),
-    platforms: Joi.array().required(),
+    platform: Joi.string().required(),
     genres: Joi.array().required(),
+    developers: Joi.array(),
+    editors: Joi.array(),
     completed: Joi.boolean(),
     platinum: Joi.boolean(),
-    now_playing: Joi.boolean(),
-    release_date: Joi.date(),
+    nowPlaying: Joi.boolean(),
+    physical: Joi.boolean(),
+    releaseDate: Joi.date(),
     cover: Joi.string()
   });
 
@@ -18,12 +21,15 @@ export const addGameValidation = (data: any) => {
 export const editGameValidation = (data: any) => {
   const schema = Joi.object({
     name: Joi.string(),
-    platforms: Joi.array(),
+    platform: Joi.string(),
     genres: Joi.array(),
+    developers: Joi.array(),
+    editors: Joi.array(),
     completed: Joi.boolean(),
     platinum: Joi.boolean(),
-    now_playing: Joi.boolean(),
-    release_date: Joi.date(),
+    nowPlaying: Joi.boolean(),
+    physical: Joi.boolean(),
+    releaseDate: Joi.date(),
     cover: Joi.string()
   });
 

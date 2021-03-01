@@ -11,5 +11,5 @@
   },                         
   "exclude": ["node_modules"], 
   "include": ["src/**/*.ts"],
-  "files":["typings/environment.d.ts"]
+  "files":["src/typings/environment.d.ts"]
 }
