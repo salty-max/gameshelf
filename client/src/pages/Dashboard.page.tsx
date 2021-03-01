@@ -21,7 +21,7 @@ const Dashboard = () => {
       </div>
       <div className="grid grid-cols-4">
         <div className="col-start-1 col-span-2">
-          <h3 className="text-xl">Games</h3>
+          <h3 className="text-xl">Latest games</h3>
           <div className="mt-4">
             {games && games.map((game) => <GameItem key={game._id} {...game} />)}
           </div>

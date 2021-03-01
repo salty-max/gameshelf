@@ -6,6 +6,7 @@ env/client.env
 node_modules
 yarn.lock
 
+api/dump.json
 api/node_modules
 api/package-lock.json
 api/yarn.lock

@@ -23,24 +23,24 @@ export interface IError {
 export interface IGame {
   _id: string;
   name: string;
-  platforms: [
-    {
-      _id: string;
-      name: string;
-    },
-  ];
+  platform: {
+    _id: string;
+    name: string;
+  };
   genres: [
     {
       _id: string;
       name: string;
     },
   ];
+  editor: String;
   owner: string;
   completed: boolean;
   platinum: boolean;
-  now_playing: boolean;
-  release_date: Date;
-  created_at: Date;
+  nowPlaying: boolean;
+  physical: boolean;
+  releaseDate: Date;
+  createdAt: Date;
   cover: string;
 }
 
@@ -69,7 +69,7 @@ export type GameAction = ReturnType<
 
 export const fetchGamesAsync = () => async (dispatch: Dispatch<GameAction>) => {
   try {
-    const res = await axios.get(createUrl('/games'));
+    const res = await axios.get(createUrl('/games?limit=10'));
 
     dispatch(fetchGamesSuccess(res.data.games));
   } catch (err) {

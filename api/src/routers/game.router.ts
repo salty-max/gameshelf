@@ -11,11 +11,18 @@ const GameRouter = Router();
  * @access Private
  */
 GameRouter.get('/', async (req: Request, res: Response) => {
+  const { limit, sort_by, sort_order } = req.query;
+
   try {
     const games = await Game
-      .find({ owner: req.user.id })
+      .find({
+        owner: req.user.id,
+      })
       .populate('genres', { name: 1 })
-      .populate('platforms', { name: 1 })
+      .populate('platform', 'name')
+      .limit(limit ? Number(limit) : 1000)
+      .sort(sort_by ? { [`${sort_by}`]: sort_order } : '-createdAt');
+
     if (games) {
       res
         .status(200)
@@ -41,7 +48,7 @@ GameRouter.get('/:id', async (req: Request, res: Response) => {
   try {
     const game = await Game
       .findOne({ _id: gameId, owner: req.user.id })
-      .populate('genre', 'name')
+      .populate('genres', { name: 1 })
       .populate('platform', 'name');
 
     if (game) {
@@ -85,22 +92,28 @@ GameRouter.post('/', async (req: Request, res: Response) => {
     const { 
       name,
       genres,
-      platforms,
+      platform,
+      developers,
+      editors,
       completed,
       platinum,
-      now_playing,
-      release_date,
+      nowPlaying,
+      physical,
+      releaseDate,
       cover
     } = req.body;
 
     const newGame = new Game({
       name,
       genres,
-      platforms,
+      platform,
+      developers,
+      editors,
       completed,
       platinum,
-      now_playing,
-      release_date,
+      nowPlaying,
+      physical,
+      releaseDate,
       cover,
       owner: req.user.id
     });
