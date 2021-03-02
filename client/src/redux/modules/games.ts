@@ -88,6 +88,8 @@ const fetchPlatformsSuccess = (platforms: IPlatform[]) =>
 const fetchPlatformsFail = (error: IError | string) => typedAction(FETCH_PLATFORMS_FAIL, error);
 const fetchGenresSuccess = (genres: IGenre[]) => typedAction(FETCH_GENRES_SUCCESS, genres);
 const fetchGenresFail = (error: IError | string) => typedAction(FETCH_GENRES_FAIL, error);
+const addGameSuccess = (game: IGame) => typedAction(ADD_GAME_SUCCESS, game);
+const addGameFail = (error: IError | string) => typedAction(ADD_GAME_FAIL, error);
 
 export type GameAction = ReturnType<
   | typeof fetchGamesSuccess
@@ -98,6 +100,8 @@ export type GameAction = ReturnType<
   | typeof fetchGenresFail
   | typeof fetchPlatformsSuccess
   | typeof fetchPlatformsFail
+  | typeof addGameSuccess
+  | typeof addGameFail
 >;
 
 export const fetchGamesAsync = () => async (dispatch: Dispatch<GameAction>) => {
@@ -127,6 +131,19 @@ export const fetchGenresAsync = () => async (dispatch: Dispatch<GameAction>) => 
     dispatch(fetchGenresSuccess(res.data.genres));
   } catch (err) {
     dispatch(fetchGenresFail(err.response.data));
+  }
+};
+
+export const addGameAsync = (data: IGame) => async (dispatch: Dispatch<GameAction>) => {
+  try {
+    const res = await axios.post(createUrl('/games'), data, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    dispatch(addGameSuccess(res.data.game));
+  } catch (err) {
+    dispatch(addGameFail(err.response.data));
   }
 };
 
@@ -209,6 +226,26 @@ export const gamesReducer = (state: IGameState = initialState, action: GameActio
         platforms: state.platforms,
         genres: null,
         currentGame: state.currentGame,
+        loading: false,
+        error: action.payload,
+      };
+    case ADD_GAME_SUCCESS:
+      return {
+        ...state,
+        games: state.games,
+        platforms: state.platforms,
+        genres: state.genres,
+        currentGame: action.payload,
+        loading: false,
+        error: null,
+      };
+    case ADD_GAME_FAIL:
+      return {
+        ...state,
+        games: state.games,
+        platforms: state.platforms,
+        genres: state.genres,
+        currentGame: null,
         loading: false,
         error: action.payload,
       };

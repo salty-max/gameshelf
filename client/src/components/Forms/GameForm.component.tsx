@@ -6,8 +6,14 @@ import Button from '../shared/Button.component';
 import Field from '../shared/Field.component';
 import Select from '../shared/Select.component';
 import { AppActions, RootState, useTypedSelector } from '../../redux';
-import { fetchGenresAsync, fetchPlatformsAsync, IGame } from '../../redux/modules/games';
+import {
+  addGameAsync,
+  fetchGenresAsync,
+  fetchPlatformsAsync,
+  IGame,
+} from '../../redux/modules/games';
 import dayjs from 'dayjs';
+import { useHistory } from 'react-router-dom';
 
 interface IGameFormProps {
   game?: IGame;
@@ -37,23 +43,26 @@ interface IFormData {
 
 const GameForm: FC<IGameFormProps> = ({ game }) => {
   const platformValue = game && { value: game.platform._id, label: game.platform.name };
-  const genresgame = game && game.genres.map((genre) => ({ value: genre._id, label: genre.name }));
+  const genresValues =
+    game && game.genres.map((genre) => ({ value: genre._id, label: genre.name }));
   const { platforms, genres } = useTypedSelector((state) => state.games);
   const dispatch: ThunkDispatch<RootState, unknown, AppActions> = useDispatch();
+  const fetchPlatforms = () => dispatch(fetchPlatformsAsync());
+  const fetchGenres = () => dispatch(fetchGenresAsync());
+  const addGame = (game: any) => dispatch(addGameAsync(game));
+  const history = useHistory();
   const { register, control, handleSubmit } = useForm<IFormData>({
     defaultValues: game
       ? {
           ...game,
           platform: platformValue,
-          genres: genresgame,
+          genres: genresValues,
           editors: game.editors.join(','),
           developers: game.developers.join(','),
           releaseDate: dayjs(game.releaseDate).format('YYYY/MM/DD'),
         }
       : {},
   });
-  const fetchPlatforms = () => dispatch(fetchPlatformsAsync());
-  const fetchGenres = () => dispatch(fetchGenresAsync());
 
   useEffect(() => {
     fetchPlatforms();
@@ -84,7 +93,9 @@ const GameForm: FC<IGameFormProps> = ({ game }) => {
       releaseDate: dayjs(formData.releaseDate).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
       cover: formData.cover,
     };
-    console.log({ body });
+
+    await addGame(body);
+    history.push('/dashboard');
   });
 
   return (
