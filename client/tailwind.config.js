@@ -123,4 +123,5 @@ module.exports = {
       borderWidth: ['hover'],
     },
   },
+  plugins: [require('@tailwindcss/forms')],
 };

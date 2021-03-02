@@ -27,6 +27,7 @@
   input[type='password'],
   select,
   textarea {
+    @apply border-0;
     @apply bg-gray-lightest;
     @apply rounded-xl;
     @apply px-4 py-2;
