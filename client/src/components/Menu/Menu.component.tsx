@@ -44,7 +44,7 @@ const Menu = () => {
       </div>
       <div className="px-4 py-2 absolute bottom-0 left-0 flex justify-between items-center w-full text-gray-dark">
         <div className="flex items-center">
-          <i className="fad fa-user mr-4"></i>
+          <i className="fad fa-user mr-2"></i>
           <span>{user?.username}</span>
         </div>
         <Button

@@ -10,6 +10,7 @@ import Register from './pages/Register.page';
 import { AppActions, RootState } from './redux';
 import { loadUser } from './redux/modules/user';
 import setAuthToken from './utils/setAuthToken';
+import AddForm from './pages/AddForm.page';
 
 if (localStorage.getItem('token')) {
   setAuthToken(localStorage.getItem('token'));
@@ -51,6 +52,15 @@ const App: FC = () => {
           component={() => (
             <Wrapper>
               <Dashboard />
+            </Wrapper>
+          )}
+        />
+        <PrivateRoute
+          exact
+          path="/games/add"
+          component={() => (
+            <Wrapper>
+              <AddForm />
             </Wrapper>
           )}
         />

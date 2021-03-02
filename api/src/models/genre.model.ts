@@ -1,19 +1,17 @@
-import mongoose, { Schema } from 'mongoose';
-import { Game } from './game.model';
+import mongoose, { Schema, Document } from 'mongoose';
 
-const GenreSchema = new mongoose.Schema({
+const GenreSchema = new Schema({
   name: {
     type: String,
     required: true,
-  },
-  games: [{
-    type: Schema.Types.ObjectId,
-    ref: "Game",
-  }],
-  createdAt: {
-    type: Date,
-    default: Date.now(),
   }
-})
+}, { timestamps: { currentTime: () => Math.floor(Date.now() / 1000) } })
 
-export const Genre = mongoose.model("Genre", GenreSchema);
+export interface IGenre extends Document {
+  _id: string;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export const Genre = mongoose.model<IGenre>("Genre", GenreSchema);

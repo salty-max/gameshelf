@@ -1,7 +1,7 @@
 import { string } from '@hapi/joi';
 import mongoose, { Schema, Document, Types } from 'mongoose';
 
-const GameSchema = new mongoose.Schema({
+const GameSchema = new Schema({
   name: {
     type: String,
     required: true,
