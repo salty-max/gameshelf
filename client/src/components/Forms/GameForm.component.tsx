@@ -2,6 +2,9 @@ import React, { FC, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
+import moment from 'moment';
+import { useHistory } from 'react-router-dom';
+
 import Button from '../shared/Button.component';
 import Field from '../shared/Field.component';
 import Select from '../shared/Select.component';
@@ -12,8 +15,6 @@ import {
   fetchPlatformsAsync,
   IGame,
 } from '../../redux/modules/games';
-import dayjs from 'dayjs';
-import { useHistory } from 'react-router-dom';
 
 interface IGameFormProps {
   game?: IGame;
@@ -59,7 +60,7 @@ const GameForm: FC<IGameFormProps> = ({ game }) => {
           genres: genresValues,
           editors: game.editors.join(','),
           developers: game.developers.join(','),
-          releaseDate: dayjs(game.releaseDate).format('YYYY/MM/DD'),
+          releaseDate: moment(game.releaseDate).format('YYYY/MM/DD'),
         }
       : {},
   });
@@ -90,7 +91,7 @@ const GameForm: FC<IGameFormProps> = ({ game }) => {
       platinum: formData.platinum || false,
       nowPlaying: formData.nowPlaying || false,
       physical: formData.physical || false,
-      releaseDate: dayjs(formData.releaseDate).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+      releaseDate: moment(formData.releaseDate).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
       cover: formData.cover,
     };
 

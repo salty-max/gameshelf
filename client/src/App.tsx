@@ -2,15 +2,17 @@ import React, { FC, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ThunkDispatch } from 'redux-thunk';
+
+import { AppActions, RootState } from './redux';
+import { loadUser } from './redux/modules/user';
+import setAuthToken from './utils/setAuthToken';
 import Menu from './components/Menu/Menu.component';
 import PrivateRoute from './components/shared/PrivateRoute.component';
 import Dashboard from './pages/Dashboard.page';
 import Login from './pages/Login.page';
 import Register from './pages/Register.page';
-import { AppActions, RootState } from './redux';
-import { loadUser } from './redux/modules/user';
-import setAuthToken from './utils/setAuthToken';
 import AddForm from './pages/AddForm.page';
+import GameDetails from './pages/GameDetails.page';
 
 if (localStorage.getItem('token')) {
   setAuthToken(localStorage.getItem('token'));
@@ -25,7 +27,6 @@ const Wrapper: FC<IWrapperProps> = ({ children }) => {
   const loadAction = () => dispatch(loadUser());
 
   useEffect(() => {
-    console.log('coucou');
     loadAction();
   }, []);
 
@@ -47,11 +48,19 @@ const App: FC = () => {
         <Route exact path="/login" component={() => <Login />} />
         <Route exact path="/register" component={() => <Register />} />
         <PrivateRoute
-          exact
           path="/dashboard"
           component={() => (
             <Wrapper>
               <Dashboard />
+            </Wrapper>
+          )}
+        />
+        <PrivateRoute
+          exact
+          path="/games/:id"
+          component={() => (
+            <Wrapper>
+              <GameDetails />
             </Wrapper>
           )}
         />

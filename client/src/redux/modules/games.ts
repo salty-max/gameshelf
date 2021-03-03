@@ -114,6 +114,16 @@ export const fetchGamesAsync = () => async (dispatch: Dispatch<GameAction>) => {
   }
 };
 
+export const fetchGameAsync = (gameId: string) => async (dispatch: Dispatch<GameAction>) => {
+  try {
+    const res = await axios.get(createUrl(`/games/${gameId}`));
+
+    dispatch(fetchGameSuccess(res.data.game));
+  } catch (err) {
+    dispatch(fetchGameFail(err.response.data));
+  }
+};
+
 export const fetchPlatformsAsync = () => async (dispatch: Dispatch<GameAction>) => {
   try {
     const res = await axios.get(createUrl('/platforms'));

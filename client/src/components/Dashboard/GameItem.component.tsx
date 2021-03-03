@@ -1,8 +1,13 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { FC } from 'react';
+import { useHistory } from 'react-router-dom';
 import getHardwareLogo from '../../utils/getHardwareLogo';
 import Button from '../shared/Button.component';
 
 interface IGameItemProps {
+  _id: string;
   name: string;
   platform: {
     _id: string;
@@ -15,6 +20,7 @@ interface IGameItemProps {
 }
 
 const GameItem: FC<IGameItemProps> = ({
+  _id,
   name,
   platform,
   completed,
@@ -22,6 +28,8 @@ const GameItem: FC<IGameItemProps> = ({
   nowPlaying,
   physical,
 }) => {
+  const history = useHistory();
+
   return (
     <article className="px-4 py-2 bg-white rounded-xxl mb-2 last:mb-0 shadow-md flex items-center justify-between">
       <div className="flex items-center">
@@ -39,7 +47,14 @@ const GameItem: FC<IGameItemProps> = ({
         </div>
       </div>
       <div className="grid grid-flow-cols grid-cols-2 auto-cols-max">
-        <Button transparent bgColor="purple" textColor="blue" circle icon="search" />
+        <Button
+          transparent
+          bgColor="purple"
+          textColor="blue"
+          circle
+          icon="search"
+          onClick={() => history.push(`/games/${_id}`)}
+        />
         <Button transparent bgColor="red" textColor="red" circle icon="trash-alt" />
       </div>
     </article>
