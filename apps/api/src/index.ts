@@ -3,11 +3,11 @@ import express from "express";
 import helmet from "helmet";
 import winston from "winston";
 
-dotenv.config({ path: `.env.${process.env.NODE_ENV}` })
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
-const app = express()
+const app = express();
 
-app.use(helmet())
+app.use(helmet());
 
 const logger = winston.createLogger({
   // Log only if level is less than (meaning more severe) or equal to this
@@ -18,8 +18,8 @@ const logger = winston.createLogger({
     winston.format.colorize(),
     winston.format.json(),
     winston.format.printf(
-      (info) => `[${info.timestamp}] ${info.level}: ${info.message}`
-    )
+      (info) => `[${info.timestamp}] ${info.level}: ${info.message}`,
+    ),
   ),
   // Log to the console and a file
   transports: [
@@ -35,14 +35,13 @@ app.use((req, _, next) => {
 });
 
 app.get("/", (_, res) => {
-  res.send("It works!")
-})
+  res.send("It works!");
+});
 
-const { PORT } = process.env
+const { PORT } = process.env;
 
 app.listen(PORT, () => {
   logger.log("info", `🚀 Api listening on port ${PORT}!`);
-})
+});
 
-export const api = app
-
+export const api = app;
