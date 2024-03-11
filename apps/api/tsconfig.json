@@ -1,0 +1,9 @@
+{
+  "extends": "@repo/typescript-config/vite.json",
+  "compilerOptions": {
+      "target": "ESNext",
+      "module": "ESNext",
+      "types": ["node", "express", "vite/client"]
+  },
+  "include": ["src"]
+}
