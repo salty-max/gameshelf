@@ -9,10 +9,18 @@ const globalDecorator: Decorator = (Story, context) => {
   const theme = context.parameters.theme || context.globals.theme;
   return (
     <div
-      className={cn(
-        "absolute top-0 left-0 w-screen h-screen overflow-auto flex items-center justify-center bg-background",
-        theme,
-      )}
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100vw",
+        height: "100vh",
+        overflow: "auto",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+      className={cn("bg-background", theme)}
     >
       <Story />
     </div>
