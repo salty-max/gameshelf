@@ -1,29 +1,38 @@
-import type { Decorator, Preview } from "@storybook/react";
-import {
-  withThemeByClassName,
-  withThemeFromJSXProvider,
-} from "@storybook/addon-themes";
+import type { Decorator, Preview, ReactRenderer } from "@storybook/react";
+import { withThemeByClassName } from "@storybook/addon-themes";
 import React from "react";
-import { ThemeProvider } from "styled-components";
-import { lightTheme, GlobalStyles, darkTheme } from "@repo/theme";
 
-import "../src/index.css";
+import "../../../styles/globals.css";
+import { cn } from "../src/utils";
+
+const globalDecorator: Decorator = (Story, context) => {
+  const theme = context.parameters.theme || context.globals.theme;
+  return (
+    <div
+      className={cn(
+        "absolute top-0 left-0 w-screen h-screen overflow-auto flex items-center justify-center bg-background",
+        theme,
+      )}
+    >
+      <Story />
+    </div>
+  );
+};
 
 export const decorators = [
-  withThemeFromJSXProvider({
+  globalDecorator,
+  withThemeByClassName<ReactRenderer>({
     themes: {
-      light: lightTheme,
-      dark: darkTheme,
+      light: "",
+      dark: "dark",
     },
     defaultTheme: "light",
-    Provider: ThemeProvider,
-    GlobalStyles: GlobalStyles,
   }),
 ];
 
 const preview: Preview = {
-  decorators: decorators,
   parameters: {
+    actions: { argTypesRegex: "^on[A-Z].*" },
     controls: {
       matchers: {
         color: /(background|color)$/i,

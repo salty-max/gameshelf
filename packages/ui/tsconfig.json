@@ -21,6 +21,6 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src"],
-  "extends": "@repo/typescript-config/vite.json",
+  "extends": "@repo/tsconfig/vite.json",
   "references": [{ "path": "./tsconfig.node.json" }]
 }

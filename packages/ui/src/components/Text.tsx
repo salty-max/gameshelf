@@ -87,27 +87,27 @@ export const Text: FC<TextProps> = ({
           `;
         case "primary":
           return css`
-            color: ${theme.colors.primary};
+            color: ${theme.colors.primary.default};
           `;
         case "secondary":
           return css`
-            color: ${theme.colors.secondary};
+            color: ${theme.colors.secondary.default};
           `;
         case "info":
           return css`
-            color: ${theme.colors.info};
+            color: ${theme.colors.info.default};
           `;
         case "success":
           return css`
-            color: ${theme.colors.success};
+            color: ${theme.colors.success.default};
           `;
         case "warning":
           return css`
-            color: ${theme.colors.warning};
+            color: ${theme.colors.warning.default};
           `;
         case "error":
           return css`
-            color: ${theme.colors.error};
+            color: ${theme.colors.error.default};
           `;
       }
     }}
