@@ -23,7 +23,7 @@ const meta = {
       mapping: {
         Link: <a>Link</a>,
         Div: <div>Div</div>,
-      }
+      },
     },
     variant: {
       control: "select",
@@ -78,9 +78,15 @@ export const Link: Story = {
   },
 };
 
+export const Disabled: Story = {
+  args: {
+    disabled: true,
+  },
+};
+
 export const AsChild: Story = {
   args: {
     asChild: true,
     children: <a>Link</a>,
-  }
-}
+  },
+};

@@ -1,20 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react"
+import React from "react";
 import { combinedRef, mergeReactProps } from "../utils";
 
 interface SlotProps {
-  children?: React.ReactNode
+  children?: React.ReactNode;
 }
 
-export const Slot = React.forwardRef<HTMLElement, SlotProps>((props, forwardedRef) => {
-  const { children, ...slotProps } = props;
+export const Slot = React.forwardRef<HTMLElement, SlotProps>(
+  (props, forwardedRef) => {
+    const { children, ...slotProps } = props;
 
-  if (!React.isValidElement(children)) {
-    return null
-  }
+    if (!React.isValidElement(children)) {
+      return null;
+    }
 
-  return React.cloneElement(children, {
-    ...mergeReactProps(slotProps, children.props),
-    ref: combinedRef([forwardedRef, (children as any).ref])
-  } as any)
-})
+    return React.cloneElement(children, {
+      ...mergeReactProps(slotProps, children.props),
+      ref: combinedRef([forwardedRef, (children as any).ref]),
+    } as any);
+  },
+);

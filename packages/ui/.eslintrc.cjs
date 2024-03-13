@@ -7,7 +7,7 @@ module.exports = {
   settings: {
     tailwindcss: {
       "callees": ["cn", "cva"],
-      "config": "tailwind.config.js"
+      "config": "./tailwind.config.js"
     },
   },
   rules: {
@@ -15,5 +15,6 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    'tailwindcss/no-custom-classname': 'off',
   },
 }
