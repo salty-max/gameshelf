@@ -4,7 +4,7 @@ import baseConfig from "@repo/configs/tailwind.config";
 export default {
   presets: [baseConfig],
   mode: "jit",
-  purge: ["**/*.{js,jsx,ts,tsx}"],
+  purge: ["src/**/*.{js,jsx,ts,tsx}"],
   extend: {
     cursor: ["help"],
   },

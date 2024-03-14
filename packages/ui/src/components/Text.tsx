@@ -1,5 +1,6 @@
 import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "../utils";
+import React from "react";
 
 const textVariants = cva("", {
   variants: {
@@ -18,32 +19,38 @@ const textVariants = cva("", {
 });
 
 export interface TextProps
-  extends React.HTMLAttributes<HTMLElement>,
+  extends React.HTMLAttributes<HTMLHeadingElement>,
     VariantProps<typeof textVariants> {}
 
-export const Text = ({ variant, children, className, ...props }: TextProps) => {
-  let Comp: keyof JSX.IntrinsicElements = "span";
+export const Text = React.forwardRef<HTMLHeadingElement, TextProps>(
+  ({ variant, children, className, ...props }, ref) => {
+    let Comp: keyof JSX.IntrinsicElements = "span";
 
-  switch (variant) {
-    case "title":
-      Comp = "h1";
-      break;
-    case "subtitle":
-      Comp = "h2";
-      break;
-    case "cardTitle":
-      Comp = "h3";
-      break;
-    case "caption":
-      Comp = "small";
-      break;
-    default:
-      break;
+    switch (variant) {
+      case "title":
+        Comp = "h1";
+        break;
+      case "subtitle":
+        Comp = "h2";
+        break;
+      case "cardTitle":
+        Comp = "h3";
+        break;
+      case "caption":
+        Comp = "small";
+        break;
+      default:
+        break;
+    }
+
+    return (
+      <Comp
+        ref={ref}
+        className={cn(textVariants({ variant, className }))}
+        {...props}
+      >
+        {children}
+      </Comp>
+    );
   }
-
-  return (
-    <Comp className={cn(textVariants({ variant, className }))} {...props}>
-      {children}
-    </Comp>
-  );
-};
+);

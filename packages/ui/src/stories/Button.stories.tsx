@@ -25,6 +25,10 @@ const meta = {
         Div: <div>Div</div>,
       },
     },
+    iconPosition: {
+      control: "select",
+      options: ["left", "right"],
+    },
     variant: {
       control: "select",
       options: [
@@ -63,6 +67,7 @@ export const Secondary: Story = {
 export const Destructive: Story = {
   args: {
     variant: "destructive",
+    icon: "Trash2",
   },
 };
 
@@ -81,6 +86,22 @@ export const Link: Story = {
 export const Disabled: Story = {
   args: {
     disabled: true,
+  },
+};
+
+export const WithIcon: Story = {
+  args: {
+    children: "Edit",
+    icon: "Pencil",
+    iconPosition: "left",
+  },
+};
+
+export const Icon: Story = {
+  args: {
+    children: undefined,
+    size: "icon",
+    icon: "Bell",
   },
 };
 

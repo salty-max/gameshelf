@@ -3,9 +3,10 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "../utils";
 import { Slot } from "./Slot";
+import { Icon } from "./Icon";
 
 const buttonVariants = cva(
-  "focus-visible:ring-ring inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50",
+  "focus-visible:ring-ring inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 [&>svg]:text-sm",
   {
     variants: {
       variant: {
@@ -22,7 +23,7 @@ const buttonVariants = cva(
       },
       size: {
         default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
+        sm: "h-8 rounded-md px-3 text-xs [&>svg]:text-xs",
         lg: "h-10 rounded-md px-8",
         icon: "size-9",
       },
@@ -38,18 +39,38 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
+  icon?: string;
+  iconPosition?: "left" | "right";
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild, children, ...props }, forwardedRef) => {
+  (
+    {
+      className,
+      variant,
+      size,
+      asChild,
+      icon,
+      iconPosition = "left",
+      children,
+      ...props
+    },
+    ref
+  ) => {
     const Comp = asChild ? Slot : "button";
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
-        ref={forwardedRef}
+        ref={ref}
         {...props}
       >
+        {icon && iconPosition === "left" && (
+          <Icon name={icon} size={size === "sm" ? 14 : 16} />
+        )}
         {children}
+        {icon && iconPosition === "right" && (
+          <Icon name={icon} size={size === "sm" ? 14 : 16} />
+        )}
       </Comp>
     );
   }
